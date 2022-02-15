@@ -1,0 +1,20 @@
+{
+    "files.exclude": {
+        ".dart_tool": true,
+        ".flutter-plugins": true,
+        ".flutter-plugins-dependencies": true,
+        ".idea": true,
+        ".metadata": true,
+        ".packages": true,
+        "*.iml": true,
+        "**/*.config.dart": true,
+        "**/*.g.dart": true,
+        "**/*.gr.dart": true,
+        "**/*.mocks.dart": true,
+        "android": true,
+        "build": true,
+        "ios": true,
+        "web": true
+    },
+    "editor.formatOnSave": true
+}
