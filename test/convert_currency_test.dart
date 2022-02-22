@@ -27,6 +27,17 @@ void main() {
       destinationId: convertion.destinationId,
     ));
   });
+
+  test('should return the converted value correctly', () {
+    when(mockRepository.getConvertRate(
+      sourceId: convertion.sourceId,
+      destinationId: convertion.destinationId,
+    )).thenAnswer((realInvocation) => convertRate);
+
+    final result = usecase(convertion);
+
+    expect(result, convertRate * convertion.sourceValue);
+  });
 }
 
 class Convertion {
