@@ -53,6 +53,30 @@
 
     Aplicação do TDD criando os testes do repo
 
+##  Repo
+
+* Objetivo
+    * Acessar o Hive para obter os valores das taxas de conversão
+
+* Precisa ter um atributo para armazenar o Box 'convertRates' do Hive, que vai ser inicializado com um valor padrão
+
+* Recebe
+    * id da moeda de origem
+    * id da moeda de destino
+
+
+
+* 1 - Definir a key a ser buscada com base nos ids recebidos. Ex: 
+    * Id de origem: BRL
+    * Id de destino: USD
+    * key: BRL_USD
+
+* 2 - Buscar no box do Hive a taxa de conversão passando a key
+
+* 3 - Caso o valor retornado pelo Hive seja nulo, lançar uma exceção
+
+* 4 - Caso contrário, retornar o valor como double.
+
 # Encontro 4
 
     Aplicação do TDD criando os testes do cubit
