@@ -38,6 +38,15 @@ void main() {
 
     expect(result, convertRate * convertion.sourceValue);
   });
+
+  test('should not handle any exception', () {
+    when(mockRepository.getConvertRate(
+      sourceId: convertion.sourceId,
+      destinationId: convertion.destinationId,
+    )).thenThrow(Exception());
+
+    expect(() => usecase(convertion), throwsA(isA<Exception>()));
+  });
 }
 
 class Convertion {
