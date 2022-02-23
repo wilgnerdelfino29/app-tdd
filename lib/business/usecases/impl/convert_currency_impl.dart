@@ -1,6 +1,6 @@
-import '../entities/convertion.dart';
-import '../repositories/convert_rate_repository.dart';
-import '../usecases/convert_currency.dart';
+import '../../entities/convertion.dart';
+import '../../repositories/convert_rate_repository.dart';
+import '../convert_currency.dart';
 
 class ConvertCurrencyImpl extends ConvertCurrency {
   final ConvertRateRepository _convertRateRepository;

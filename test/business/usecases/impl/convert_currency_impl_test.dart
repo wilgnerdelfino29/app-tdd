@@ -1,7 +1,7 @@
 import 'package:app_tdd/business/entities/convertion.dart';
 import 'package:app_tdd/business/repositories/convert_rate_repository.dart';
 import 'package:app_tdd/business/usecases/convert_currency.dart';
-import 'package:app_tdd/business/usecases_impl/convert_currency_impl.dart';
+import 'package:app_tdd/business/usecases/impl/convert_currency_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
