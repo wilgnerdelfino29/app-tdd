@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,6 +8,7 @@ void main() async {
 }
 
 Future<void> configHive() async {
+  await Hive.initFlutter();
   final box = await Hive.openBox('convertRate');
   box.putAll({
     'BRL_BRL': 1.00,
