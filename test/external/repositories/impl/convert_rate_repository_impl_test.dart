@@ -55,6 +55,21 @@ void main() {
     //then
     expect(result, 5.0);
   });
+
+  test("should throw a Exception if convertRate is null", () async {
+    //given
+    when(mockHive.box('convertRates')).thenReturn(mockBox);
+    when(mockBox.get('sourceId_destinationId')).thenReturn(null);
+
+    //then
+    expect(
+      () => repository.getConvertRate(
+        sourceId: 'sourceId',
+        destinationId: 'destinationId',
+      ),
+      throwsA(isA<Exception>()),
+    );
+  });
 }
 
 class ConvertRateRepositoryImpl extends ConvertRateRepository {
@@ -69,6 +84,9 @@ class ConvertRateRepositoryImpl extends ConvertRateRepository {
   }) {
     final box = hive.box('convertRates');
     final convertRate = box.get([sourceId, destinationId].join('_'));
+    if (convertRate == null) {
+      throw Exception();
+    }
     return convertRate as double;
   }
 }
