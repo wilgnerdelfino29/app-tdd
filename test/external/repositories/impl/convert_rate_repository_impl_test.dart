@@ -7,15 +7,14 @@ import 'package:mockito/mockito.dart';
 
 import './convert_rate_repository_impl_test.mocks.dart';
 
-@GenerateMocks([HiveInterface])
+@GenerateMocks([HiveInterface, Box])
 void main() {
+  final mockBox = MockBox();
   final mockHive = MockHiveInterface();
   final repository = ConvertRateRepositoryImpl(mockHive);
   test("should call the hive box correctly", () async {
     //given
-    await Hive.initFlutter();
-    final box = await Hive.openBox('test');
-    when(mockHive.box('convertRates')).thenReturn(box);
+    when(mockHive.box('convertRates')).thenReturn(mockBox);
 
     //when
     repository.getConvertRate(
@@ -25,6 +24,21 @@ void main() {
 
     //then
     verify(mockHive.box('convertRates'));
+  });
+
+  test("should get the value from the convertRates box correctly", () async {
+    //given
+    when(mockHive.box('convertRates')).thenReturn(mockBox);
+    when(mockBox.get('sourceId_destinationId')).thenReturn(0.0);
+
+    //when
+    repository.getConvertRate(
+      sourceId: 'sourceId',
+      destinationId: 'destinationId',
+    );
+
+    //then
+    verify(mockBox.get('sourceId_destinationId'));
   });
 }
 
@@ -38,7 +52,8 @@ class ConvertRateRepositoryImpl extends ConvertRateRepository {
     required String sourceId,
     required String destinationId,
   }) {
-    hive.box('convertRates');
+    final box = hive.box('convertRates');
+    final convertRate = box.get([sourceId, destinationId].join('_'));
     return 0.0;
   }
 }
