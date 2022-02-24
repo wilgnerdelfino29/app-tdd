@@ -40,6 +40,21 @@ void main() {
     //then
     verify(mockBox.get('sourceId_destinationId'));
   });
+
+  test("should return the convertRate correctly", () async {
+    //given
+    when(mockHive.box('convertRates')).thenReturn(mockBox);
+    when(mockBox.get('sourceId_destinationId')).thenReturn(5.0);
+
+    //when
+    final result = repository.getConvertRate(
+      sourceId: 'sourceId',
+      destinationId: 'destinationId',
+    );
+
+    //then
+    expect(result, 5.0);
+  });
 }
 
 class ConvertRateRepositoryImpl extends ConvertRateRepository {
@@ -54,6 +69,6 @@ class ConvertRateRepositoryImpl extends ConvertRateRepository {
   }) {
     final box = hive.box('convertRates');
     final convertRate = box.get([sourceId, destinationId].join('_'));
-    return 0.0;
+    return convertRate as double;
   }
 }
