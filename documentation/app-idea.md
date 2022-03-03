@@ -58,7 +58,7 @@
 * Objetivo
     * Acessar o Hive para obter os valores das taxas de conversão
 
-* Precisa ter um atributo para armazenar o Box 'convertRates' do Hive, que vai ser inicializado com um valor padrão
+* Precisa ter um atributo HiveInterface hive
 
 * Recebe
     * id da moeda de origem
@@ -80,6 +80,26 @@
 # Encontro 4
 
     Aplicação do TDD criando os testes do cubit
+
+## Cubit
+
+* Objetivo
+    * Armazenar a lógica da HomePage
+
+* Precisa ter um atributo ConvertCurrency convertCurrency
+
+* Precisa ter um método que chame o usecase para fazer a conversão de moeda
+    * 1 - Salvar o valor retornado do usecase no state
+    * 2 - Precisar indicar no state caso acontecer um erro
+
+* States
+    * Id da moeda de origem (Definido pelo usuário através da HomePage)
+    * Id da moeda de destino (Definido pelo usuário através da HomePage)
+    * Valor da moeda de origem (Definido pelo usuário através da HomePage)
+    * Valor da moeda de destino (Retornado pelo usecase ConvertCurrency)
+    * bool errorOcurred (Definido como true caso o usecase ConvertCurrency lance uma exceção)
+
+
 
 ## Entre os encontros 4 e 5
 
