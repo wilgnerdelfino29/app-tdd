@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import './convert_currency_test.mocks.dart';
+import './convert_currency_impl_test.mocks.dart';
 
 @GenerateMocks([ConvertRateRepository])
 void main() {
