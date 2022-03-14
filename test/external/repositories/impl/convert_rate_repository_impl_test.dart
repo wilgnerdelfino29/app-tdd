@@ -1,4 +1,4 @@
-import 'package:app_tdd/business/repositories/convert_rate_repository.dart';
+import 'package:app_tdd/external/repositories/impl/convert_rate_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,12 +9,21 @@ import './convert_rate_repository_impl_test.mocks.dart';
 
 @GenerateMocks([HiveInterface, Box])
 void main() {
-  final mockBox = MockBox();
-  final mockHive = MockHiveInterface();
-  final repository = ConvertRateRepositoryImpl(mockHive);
+  late MockBox mockBox;
+  late MockHiveInterface mockHive;
+  late ConvertRateRepositoryImpl repository;
+
+  setUp(() {
+    mockBox = MockBox();
+    mockHive = MockHiveInterface();
+    repository = ConvertRateRepositoryImpl(mockHive);
+
+    when(mockHive.box('convertRates')).thenReturn(mockBox);
+  });
+
   test("should call the hive box correctly", () async {
     //given
-    when(mockHive.box('convertRates')).thenReturn(mockBox);
+    when(mockBox.get('sourceId_destinationId')).thenReturn(0.0);
 
     //when
     repository.getConvertRate(
@@ -28,7 +37,6 @@ void main() {
 
   test("should get the value from the convertRates box correctly", () async {
     //given
-    when(mockHive.box('convertRates')).thenReturn(mockBox);
     when(mockBox.get('sourceId_destinationId')).thenReturn(0.0);
 
     //when
@@ -43,7 +51,6 @@ void main() {
 
   test("should return the convertRate correctly", () async {
     //given
-    when(mockHive.box('convertRates')).thenReturn(mockBox);
     when(mockBox.get('sourceId_destinationId')).thenReturn(5.0);
 
     //when
@@ -58,7 +65,6 @@ void main() {
 
   test("should throw a Exception if convertRate is null", () async {
     //given
-    when(mockHive.box('convertRates')).thenReturn(mockBox);
     when(mockBox.get('sourceId_destinationId')).thenReturn(null);
 
     //then
@@ -70,23 +76,4 @@ void main() {
       throwsA(isA<Exception>()),
     );
   });
-}
-
-class ConvertRateRepositoryImpl extends ConvertRateRepository {
-  final HiveInterface hive;
-
-  ConvertRateRepositoryImpl(this.hive);
-
-  @override
-  double getConvertRate({
-    required String sourceId,
-    required String destinationId,
-  }) {
-    final box = hive.box('convertRates');
-    final convertRate = box.get([sourceId, destinationId].join('_'));
-    if (convertRate == null) {
-      throw Exception();
-    }
-    return convertRate as double;
-  }
 }
