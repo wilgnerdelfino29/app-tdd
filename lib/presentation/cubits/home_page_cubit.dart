@@ -10,14 +10,20 @@ class HomePageCubit extends Cubit<HomePageState> {
   HomePageCubit(this._convertCurrency) : super(HomePageState.initialState());
 
   void convertValue() {
-    final destinationValue = _convertCurrency(Convertion(
-      sourceId: state.sourceId,
-      destinationId: state.destinationId,
-      sourceValue: state.sourceValue,
-    ));
+    try {
+      final destinationValue = _convertCurrency(Convertion(
+        sourceId: state.sourceId,
+        destinationId: state.destinationId,
+        sourceValue: state.sourceValue,
+      ));
 
-    emit(state.copyWith(
-      destinationValue: destinationValue,
-    ));
+      emit(state.copyWith(
+        destinationValue: destinationValue,
+      ));
+    } catch (error) {
+      emit(state.copyWith(
+        errorOccurred: true,
+      ));
+    }
   }
 }

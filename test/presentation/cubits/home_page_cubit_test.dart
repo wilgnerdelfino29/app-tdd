@@ -39,5 +39,22 @@ void main() {
         ];
       },
     );
+
+    blocTest<HomePageCubit, HomePageState>(
+      'should emit error state when error occurr',
+      build: () {
+        when(mockConvertCurrency(any)).thenThrow(Exception);
+        return homePageCubit;
+      },
+      seed: () => homePageState,
+      act: (cubit) => cubit.convertValue(),
+      expect: () {
+        return [
+          homePageState.copyWith(
+            errorOccurred: true,
+          )
+        ];
+      },
+    );
   });
 }
