@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'injection/config_injection.dart';
+import 'presentation/screens/home/home_page.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configHive();
+  await configInjection();
   runApp(const MyApp());
 }
 
 Future<void> configHive() async {
   await Hive.initFlutter();
-  final box = await Hive.openBox('convertRate');
+  final box = await Hive.openBox('convertRates');
   box.putAll({
     'BRL_BRL': 1.00,
     'BRL_USD': 0.1926,
@@ -36,14 +40,5 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
