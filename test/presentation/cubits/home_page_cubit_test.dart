@@ -1,3 +1,4 @@
+import 'package:app_tdd/business/entities/currency.dart';
 import 'package:app_tdd/business/usecases/convert_currency.dart';
 import 'package:app_tdd/presentation/cubits/home_page_cubit.dart';
 import 'package:app_tdd/presentation/cubits/home_page_state.dart';
@@ -13,15 +14,18 @@ void main() {
   late HomePageCubit homePageCubit;
   late HomePageState homePageState;
   late MockConvertCurrency mockConvertCurrency;
+  late List<Currency> currencies;
 
   setUp(() {
     mockConvertCurrency = MockConvertCurrency();
     homePageCubit = HomePageCubit(mockConvertCurrency);
     homePageState = HomePageState.initialState();
+    currencies = homePageState.availableCurrencies;
   });
 
   group('convertValue', () {
     const destinationValue = 51.0;
+    const sourceValue = 1.0;
 
     blocTest<HomePageCubit, HomePageState>(
       'should emit states correctly when usecase return a value',
@@ -30,10 +34,17 @@ void main() {
         return homePageCubit;
       },
       seed: () => homePageState,
-      act: (cubit) => cubit.convertValue(),
+      act: (cubit) => cubit.convertValue(
+        sourceValue: sourceValue,
+        sourceName: currencies.first.name,
+        destinationName: currencies.last.name,
+      ),
       expect: () {
         return [
           homePageState.copyWith(
+            sourceId: currencies.first.id,
+            destinationId: currencies.last.id,
+            sourceValue: sourceValue,
             destinationValue: destinationValue,
           )
         ];
@@ -47,7 +58,11 @@ void main() {
         return homePageCubit;
       },
       seed: () => homePageState,
-      act: (cubit) => cubit.convertValue(),
+      act: (cubit) => cubit.convertValue(
+        sourceValue: sourceValue,
+        sourceName: currencies.first.name,
+        destinationName: currencies.last.name,
+      ),
       expect: () {
         return [
           homePageState.copyWith(

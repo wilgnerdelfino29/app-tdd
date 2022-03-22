@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+import '../../business/entities/currency.dart';
+
 class HomePageState with EquatableMixin {
   final String sourceId;
   final String destinationId;
   final double sourceValue;
   final double destinationValue;
   final bool errorOccurred;
+  final List<Currency> availableCurrencies;
 
   HomePageState({
     required this.sourceId,
@@ -13,6 +16,7 @@ class HomePageState with EquatableMixin {
     required this.sourceValue,
     required this.destinationValue,
     required this.errorOccurred,
+    required this.availableCurrencies,
   });
 
   factory HomePageState.initialState() => HomePageState(
@@ -21,6 +25,11 @@ class HomePageState with EquatableMixin {
         sourceValue: 0,
         destinationValue: 0,
         errorOccurred: false,
+        availableCurrencies: [
+          Currency(id: 'BRL', name: 'Real'),
+          Currency(id: 'USD', name: 'US Dolar'),
+          Currency(id: 'EUR', name: 'Euro'),
+        ],
       );
 
   HomePageState copyWith({
@@ -29,6 +38,7 @@ class HomePageState with EquatableMixin {
     double? sourceValue,
     double? destinationValue,
     bool? errorOccurred,
+    List<Currency>? availableCurrencies,
   }) =>
       HomePageState(
         sourceId: sourceId ?? this.sourceId,
@@ -36,6 +46,7 @@ class HomePageState with EquatableMixin {
         sourceValue: sourceValue ?? this.sourceValue,
         destinationValue: destinationValue ?? this.destinationValue,
         errorOccurred: errorOccurred ?? this.errorOccurred,
+        availableCurrencies: availableCurrencies ?? this.availableCurrencies,
       );
 
   @override
@@ -45,5 +56,6 @@ class HomePageState with EquatableMixin {
         sourceValue,
         destinationValue,
         errorOccurred,
+        availableCurrencies,
       ];
 }

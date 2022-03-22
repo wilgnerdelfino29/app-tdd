@@ -9,15 +9,27 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   HomePageCubit(this._convertCurrency) : super(HomePageState.initialState());
 
-  void convertValue() {
+  void convertValue({
+    required double sourceValue,
+    required String sourceName,
+    required String destinationName,
+  }) {
     try {
+      emit(state.copyWith(errorOccurred: false));
+
+      final sourceId = _getIdByName(sourceName);
+      final destinationId = _getIdByName(destinationName);
+
       final destinationValue = _convertCurrency(Convertion(
-        sourceId: state.sourceId,
-        destinationId: state.destinationId,
-        sourceValue: state.sourceValue,
+        sourceId: sourceId,
+        destinationId: destinationId,
+        sourceValue: sourceValue,
       ));
 
       emit(state.copyWith(
+        sourceId: sourceId,
+        destinationId: destinationId,
+        sourceValue: sourceValue,
         destinationValue: destinationValue,
       ));
     } catch (error) {
@@ -25,5 +37,11 @@ class HomePageCubit extends Cubit<HomePageState> {
         errorOccurred: true,
       ));
     }
+  }
+
+  String _getIdByName(String name) {
+    return state.availableCurrencies
+        .firstWhere((currency) => currency.name == name)
+        .id;
   }
 }
